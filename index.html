@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Altanas Eventos | High-Contrast Premium Editorial</title>
+    <title>Altanas Eventos | Premium Interactive Experience</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -11,17 +11,17 @@
             --charcoal: #111111;
             --slate: #555555;
             --pure-white: #FFFFFF;
-            /* Fondo refinado y más oscuro para contraste real del cristal líquido */
             --bg-editorial: #EDECE8; 
             --off-white: #F4F3F0;
             --border-light: rgba(0, 0, 0, 0.06);
             --glass-radius: 24px; 
             
+            /* Curvas de velocidad */
             --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
             --ease-hover: cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Reset y optimización gráfica anti-stuttering */
+        /* RESET ESTRUCTURAL LIMPIO */
         * { 
             margin: 0; 
             padding: 0; 
@@ -79,7 +79,7 @@
             100% { transform: translate3d(-2vw, 2vh, 0) scale(0.97); }
         }
 
-        /* --- NAVEGACIÓN (RESPONSIVA) --- */
+        /* --- NAVEGACIÓN STICKY REFINGADA --- */
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 30px 10%; position: fixed; width: 100%; z-index: 1000;
@@ -87,7 +87,7 @@
         }
 
         header.scrolled { 
-            padding: 18px 10%; background: rgba(244, 243, 240, 0.85);
+            padding: 20px 10%; background: rgba(244, 243, 240, 0.85);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-light);
         }
@@ -98,14 +98,14 @@
         }
         .logo-text span { color: var(--gold); font-size: 11px; letter-spacing: 7px; font-weight: 500; display: block; margin-top: 2px;}
 
-        .magnetic-btn-wrap { display: inline-block; cursor: pointer; padding: 10px; margin: -10px; text-decoration: none; }
+        /* Wrappers para interacción magnética */
+        .magnetic-btn-wrap { display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; }
         
         .magnetic-btn {
             background: var(--charcoal); color: var(--pure-white); padding: 14px 32px;
             text-decoration: none; font-weight: 500; font-size: 0.85rem; letter-spacing: 1.5px;
             text-transform: uppercase; border-radius: 100px; display: inline-block;
-            transition: background 0.3s ease, transform 0.1s ease; pointer-events: none;
-            text-align: center; width: 100%;
+            transition: background 0.3s ease; pointer-events: none; text-align: center;
         }
         .magnetic-btn-wrap:hover .magnetic-btn { background: var(--gold); }
 
@@ -131,18 +131,20 @@
         .hero-image-wrapper {
             position: relative; width: 100%; height: 75vh; overflow: hidden;
             border-radius: var(--glass-radius);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.06);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.08);
             transform: translate3d(0,0,0);
+            isolation: isolate;
         }
         
+        /* Escala inicial estratégica para evitar que se asomen los bordes planos */
         .hero-img {
             width: 100%; height: 100%; position: absolute; top: 0; left: 0;
             background: url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
-            transform: scale(1.1);
-            transition: transform 1.8s var(--ease-premium);
+            transform: scale(1.15);
+            will-change: transform;
         }
 
-        /* --- PORTAFOLIO DE SERVICIOS (REFINADO) --- */
+        /* --- PORTAFOLIO DE SERVICIOS --- */
         .services { padding: 120px 10%; position: relative; z-index: 2; }
         .section-header { margin-bottom: 80px; text-align: center;}
         .section-header .tag { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 4px; color: var(--gold); margin-bottom: 20px; display: inline-block;}
@@ -150,7 +152,6 @@
 
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 35px; }
 
-        /* Contraste brutal del Glassmorphism sobre el nuevo fondo gris tapiz */
         .card {
             background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -182,31 +183,30 @@
         }
         .impact-content h2 { font-size: 2.8rem; color: var(--charcoal); line-height: 1.4; font-style: italic; font-weight: 400;}
 
-        /* --- ATMÓSFERAS EDITORIALES (CERO STUTTERING) --- */
+        /* --- ATMÓSFERAS EDITORIELES --- */
         .gallery-section { padding: 140px 10% 100px; position: relative; z-index: 2; }
         .gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 30px; }
         
-        /* Solución de aislamiento para no perder el recorte redondo en hardware accelerations */
         .gallery-item {
             position: relative; overflow: hidden; background: var(--off-white);
             border-radius: var(--glass-radius);
             box-shadow: 0 15px 35px rgba(0,0,0,0.03);
             transform: translate3d(0,0,0);
-            isolation: isolate; /* Forza al navegador a respetar la máscara de recorte de forma estricta */
+            isolation: isolate; /* Clave para blindar los bordes redondeados en aceleración por hardware */
             cursor: pointer;
         }
         
         .gallery-img-container { width: 100%; height: 100%; overflow: hidden; position: relative; }
 
-        /* Escala inicial aumentada al 140% para garantizar cobertura del parallax sin salirse de la máscara */
         .gallery-item img {
-            width: 100%; height: 140%; position: absolute; top: -20%; left: 0; object-fit: cover;
+            width: 100%; height: 100%; position: absolute; top: 0; left: 0; object-fit: cover;
+            transform: scale(1.15); /* Escala de seguridad */
             will-change: transform;
-            transform: translate3d(0,0,0);
-            transition: transform 0.8s var(--ease-hover), filter 0.6s ease;
+            transition: transform 0.8s var(--ease-hover);
         }
 
-        .gallery-item:hover img { transform: scale(1.05) translateY(-5px); }
+        /* Micro-interacción limpia en Hover */
+        .gallery-item:hover img { transform: scale(1.22) translateY(-3px); }
 
         .gallery-item::after {
             content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
@@ -231,22 +231,30 @@
         
         .copyright { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px; display: flex; justify-content: space-between; font-size: 0.85rem; color: #888; }
 
-        /* --- MEDIA QUERIES EXACTOS PARA SMARTPHONES --- */
+        /* --- MEDIA QUERY SMARTPHONES COHESIVO (CERO PARCHES SUCIOS) --- */
         @media (max-width: 767px) {
-            header { padding: 20px 5%; justify-content: space-between; gap: 10px; background: rgba(244, 243, 240, 0.9) !important; backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-light); }
-            header.scrolled { padding: 15px 5%; }
-            .logo-text { font-size: 16px; letter-spacing: 2px; }
+            header { 
+                padding: 15px 5%; 
+                background: rgba(244, 243, 240, 0.92) !important; 
+                backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+                border-bottom: 1px solid var(--border-light); 
+                position: fixed; /* Header se mantiene fijo por UX */
+            }
+            .logo-text { font-size: 17px; letter-spacing: 2px; }
             .logo-text span { font-size: 9px; letter-spacing: 4px; }
             
-            /* Alineación y espaciado perfecto del botón en móvil */
-            .magnetic-btn-wrap { padding: 0; margin: 0; width: auto; max-width: 150px; }
-            .magnetic-btn { padding: 10px 18px; font-size: 0.75rem; letter-spacing: 0.5px; text-align: center; display: block; }
+            /* Ajuste y centrado matemático del botón de contacto */
+            .magnetic-btn-wrap { display: flex; align-items: center; justify-content: center; width: auto; }
+            .magnetic-btn { padding: 10px 20px; font-size: 0.75rem; letter-spacing: 0.5px; border-radius: 100px; }
             
-            .hero { padding: 140px 5% 40px; text-align: center; }
+            .hero { padding: 130px 5% 40px; text-align: center; }
             .hero-grid { grid-template-columns: 1fr; gap: 40px; }
             .hero h1 { font-size: 2.6rem; }
             .hero p { font-size: 1rem; margin-bottom: 35px; }
             .hero-image-wrapper { height: 45vh; }
+            
+            /* Las imágenes en móvil se fuerzan a escala normal estática, eliminando el stuttering */
+            .hero-img, .gallery-item img { transform: scale(1.1) !important; transition: none !important; }
             
             .services { padding: 80px 5%; }
             .section-header h2 { font-size: 2.2rem; }
@@ -283,7 +291,7 @@
     <section class="hero">
         <div class="hero-grid">
             <div class="hero-content">
-                <div class="reveal-mask"><div class="hero-tagline gs-reveal">Coordinación & Diseño</div></div>
+                <div class="reveal-mask"><div class="hero-tagline">Coordinación & Diseño</div></div>
                 <h1 class="hero-title">
                     <div class="reveal-mask"><span style="display:block" class="gs-reveal">Diseñamos</span></div>
                     <div class="reveal-mask"><span style="display:block" class="gs-reveal"><i>momentos</i>,</span></div>
@@ -390,22 +398,25 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        // --- 1. SMOOTH SCROLLING AUTOMÁTICO (LENIS) ---
+        // CONDICIONAL PRINCIPAL: Detectar si es dispositivo móvil para blindar el rendimiento
+        const isMobile = window.innerWidth <= 767;
+
+        // --- 1. MOTOR DE SCROLL FLUIDO (LENIS) ---
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             direction: 'vertical',
             smooth: true,
             mouseMultiplier: 1,
-            smoothTouch: false, // Desactivado en touch nativo para prevenir stuttering en móvil
+            smoothTouch: false, // Forzar scroll nativo y fluido en touch táctil para erradicar stuttering
         });
 
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((time) => { lenis.raf(time * 1000) });
         gsap.ticker.lagSmoothing(0);
 
-        // --- 2. INTERACCIONES MAGNÉTICAS (SOLO ESCRITORIO) ---
-        if (window.innerWidth > 767) {
+        // --- 2. INTERACCIONES MAGNÉTICAS (EXCLUSIVO ESCRITORIO) ---
+        if (!isMobile) {
             const magneticBtns = document.querySelectorAll('.magnetic-btn-wrap');
             magneticBtns.forEach(btnWrap => {
                 const btn = btnWrap.querySelector('div'); 
@@ -421,53 +432,61 @@
             });
         }
 
-        // --- 3. REVELADOS TIPOGRÁFICOS ---
+        // --- 3. ANIMACIONES DE ENTRADA AL CARGAR (TIMELINE) ---
         const tlHero = gsap.timeline();
         tlHero.from(".gs-reveal", {
-            y: "120%", opacity: 0, duration: 1.2, stagger: 0.08, ease: "power4.out", delay: 0.1
+            y: "120%", opacity: 0, duration: 1.4, stagger: 0.1, ease: "power4.out", delay: 0.2
         })
-        .from("#heroWrapper", { scale: 0.98, opacity: 0, duration: 1.2, ease: "power3.out" }, "-=1")
-        .to("#heroImg", { scale: 1, duration: 1.5, ease: "power2.out" }, "-=1");
+        .from("#heroWrapper", { scale: 0.96, opacity: 0, duration: 1.4, ease: "power3.out" }, "-=1.1");
 
+        // --- 4. COREOGRAFÍA DE SCROLL INTEGRADA (CONDICIONADA) ---
+        
+        if (!isMobile) {
+            // PC: Efecto Parallax por escala controlado (Image Scrubbing anti-recorte)
+            gsap.to("#heroImg", {
+                scale: 1.04, // Reduce escala gradualmente de 1.15 a 1.04 sin moverse del eje vertical
+                ease: "none",
+                scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }
+            });
+
+            // PC: Parallax fluido en las imágenes de la galería
+            gsap.utils.toArray('.gs-parallax-img').forEach(img => {
+                gsap.to(img, {
+                    scale: 1.04, // Misma física segura que emula profundidad 3D
+                    ease: "none",
+                    scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true }
+                });
+            });
+
+            // PC: Parallax sutil en los orbes decorativos del fondo
+            gsap.to(".fluid-blob", {
+                yPercent: 15, ease: "none",
+                scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: true }
+            });
+        } else {
+            // MÓVIL: Forzar estados estáticos limpios para optimización absoluta de GPU
+            gsap.set("#heroImg, .gs-parallax-img", { scale: 1.1, yPercent: 0 });
+        }
+
+        // Revelados estándar por intersección (Comunes para ambas versiones)
         gsap.utils.toArray('.gs-reveal-up').forEach(elem => {
             gsap.from(elem, {
                 scrollTrigger: { trigger: elem, start: "top 88%" },
-                y: "100%", opacity: 0, duration: 1, ease: "power4.out"
+                y: "100%", opacity: 0, duration: 1, ease: "power3.out"
             });
         });
 
-        // --- 4. PARALLAX FOTOGRÁFICO CON PREVENCIÓN DE MÁSCARA ---
-        gsap.to("#heroImg", {
-            yPercent: 12, ease: "none",
-            scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }
-        });
-
-        gsap.utils.toArray('.gs-parallax-img').forEach(img => {
-            gsap.to(img, {
-                yPercent: 15, // Ajustado del 20% al 15% para que la foto jamás rebase la caja redondeada
-                ease: "none",
-                scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true }
-            });
-        });
-
-        // --- TIMELINES RESTANTES ---
         gsap.from(".gs-card", {
             scrollTrigger: { trigger: ".services-grid", start: "top 85%" },
-            y: 35, opacity: 0, duration: 0.8, stagger: 0.12, ease: "power3.out"
+            y: 40, opacity: 0, duration: 0.9, stagger: 0.15, ease: "power3.out"
         });
 
         gsap.from(".gs-reveal-footer", {
             scrollTrigger: { trigger: "footer", start: "top 88%" },
-            opacity: 0, duration: 1.2, stagger: 0.1, ease: "power2.out"
+            opacity: 0, duration: 1.4, stagger: 0.1, ease: "power2.out"
         });
 
-        // Parallax sutil del fondo
-        gsap.to(".fluid-blob", {
-            yPercent: 15, ease: "none",
-            scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: true }
-        });
-
-        // Navbar scrolled state
+        // Comportamiento dinámico de la barra de navegación al hacer scroll
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 30) navbar.classList.add('scrolled');
