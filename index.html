@@ -16,7 +16,6 @@
             --border-light: rgba(0, 0, 0, 0.06);
             --glass-radius: 24px; 
             
-            /* Curvas de velocidad */
             --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
             --ease-hover: cubic-bezier(0.25, 1, 0.5, 1);
         }
@@ -27,12 +26,9 @@
             padding: 0; 
             box-sizing: border-box; 
             outline: none;
-            -webkit-perspective: 1000;
-            perspective: 1000;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
         }
         
+        /* Lenis CSS para scroll fluido */
         html.lenis, html.lenis body { height: auto; width: 100%; overflow-x: hidden; }
         .lenis.lenis-smooth { scroll-behavior: auto !important; }
         .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
@@ -79,16 +75,23 @@
             100% { transform: translate3d(-2vw, 2vh, 0) scale(0.97); }
         }
 
-        /* --- NAVEGACIÓN STICKY REFINGADA --- */
+        /* --- NAVEGACIÓN FIJA EN TODAS LAS PANTALLAS --- */
         header {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 30px 10%; position: fixed; width: 100%; z-index: 1000;
-            background: rgba(237, 236, 232, 0); transition: all 0.5s var(--ease-premium);
+            /* Header base ligeramente más grande para tener presencia */
+            padding: 35px 10%; 
+            position: fixed; top: 0; left: 0; width: 100%; 
+            z-index: 9999;
+            background: rgba(237, 236, 232, 0); 
+            transition: all 0.4s ease;
         }
 
         header.scrolled { 
-            padding: 20px 10%; background: rgba(244, 243, 240, 0.85);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            /* Se mantiene el tamaño casi intacto al scrollear en PC */
+            padding: 30px 10%; 
+            /* Fondo más translúcido y blur reducido para ver el contenido detrás */
+            background: rgba(244, 243, 240, 0.7);
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
             border-bottom: 1px solid var(--border-light);
         }
 
@@ -98,8 +101,15 @@
         }
         .logo-text span { color: var(--gold); font-size: 11px; letter-spacing: 7px; font-weight: 500; display: block; margin-top: 2px;}
 
-        /* Wrappers para interacción magnética */
-        .magnetic-btn-wrap { display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; }
+        /* --- SISTEMA MAGNÉTICO (HITBOXES PERFECCIONADAS Y EQUILIBRADAS) --- */
+        .magnetic-btn-wrap { 
+            display: inline-flex; 
+            align-items: center; justify-content: center; 
+            cursor: pointer; text-decoration: none; 
+        }
+        
+        .contact-wrap { padding: 20px; margin: -20px; }
+        .cotizar-wrap { padding: 24px; margin: -24px; }
         
         .magnetic-btn {
             background: var(--charcoal); color: var(--pure-white); padding: 14px 32px;
@@ -107,7 +117,7 @@
             text-transform: uppercase; border-radius: 100px; display: inline-block;
             transition: background 0.3s ease; pointer-events: none; text-align: center;
         }
-        .magnetic-btn-wrap:hover .magnetic-btn { background: var(--gold); }
+        .contact-wrap:hover .magnetic-btn { background: var(--gold); }
 
         .btn-gold {
             background: var(--gold); color: var(--pure-white); padding: 18px 42px;
@@ -115,13 +125,14 @@
             text-transform: uppercase; display: inline-block; border-radius: 100px;
             transition: background 0.3s ease; pointer-events: none; text-align: center;
         }
-        .magnetic-btn-wrap:hover .btn-gold { background: var(--charcoal); }
+        .cotizar-wrap:hover .btn-gold { background: var(--charcoal); }
 
         /* --- HERO SECTION --- */
-        .hero { min-height: 100vh; display: flex; align-items: center; padding: 140px 10% 80px; position: relative; z-index: 2; }
+        .hero { min-height: 100vh; display: flex; align-items: center; padding: 160px 10% 80px; position: relative; z-index: 2; }
         .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 80px; align-items: center; width: 100%; }
+        
         .reveal-mask { overflow: hidden; display: block; }
-        .btn-mask-container { overflow: visible; display: block; }
+        .btn-mask-container { overflow: visible; display: flex; justify-content: flex-start;} 
 
         .hero-tagline { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 4px; color: var(--gold); margin-bottom: 25px; font-weight: 600; display: inline-block; }
         .hero h1 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 30px; color: var(--charcoal); }
@@ -136,16 +147,15 @@
             isolation: isolate;
         }
         
-        /* Escala inicial estratégica para evitar que se asomen los bordes planos */
         .hero-img {
             width: 100%; height: 100%; position: absolute; top: 0; left: 0;
             background: url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
-            transform: scale(1.15);
+            transform: scale(1.15); 
             will-change: transform;
         }
 
         /* --- PORTAFOLIO DE SERVICIOS --- */
-        .services { padding: 120px 10%; position: relative; z-index: 2; }
+        .services { padding: 120px 10%; position: relative; z-index: 2;}
         .section-header { margin-bottom: 80px; text-align: center;}
         .section-header .tag { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 4px; color: var(--gold); margin-bottom: 20px; display: inline-block;}
         .section-header h2 { font-size: 3.5rem; color: var(--charcoal); }
@@ -160,7 +170,7 @@
             border: 1px solid rgba(255,255,255,0.9);
             box-shadow: 0 15px 35px rgba(0,0,0,0.02), inset 0 0 15px rgba(255,255,255,0.6);
             transition: transform 0.5s var(--ease-hover), box-shadow 0.5s var(--ease-hover), border-color 0.4s ease, background 0.4s ease;
-            position: relative; cursor: pointer; z-index: 10;
+            position: relative; cursor: pointer;
         }
 
         .card:hover {
@@ -183,8 +193,8 @@
         }
         .impact-content h2 { font-size: 2.8rem; color: var(--charcoal); line-height: 1.4; font-style: italic; font-weight: 400;}
 
-        /* --- ATMÓSFERAS EDITORIELES --- */
-        .gallery-section { padding: 140px 10% 100px; position: relative; z-index: 2; }
+        /* --- ATMÓSFERAS EDITORIALES --- */
+        .gallery-section { padding: 140px 10% 100px; position: relative; z-index: 2;}
         .gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 30px; }
         
         .gallery-item {
@@ -192,7 +202,7 @@
             border-radius: var(--glass-radius);
             box-shadow: 0 15px 35px rgba(0,0,0,0.03);
             transform: translate3d(0,0,0);
-            isolation: isolate; /* Clave para blindar los bordes redondeados en aceleración por hardware */
+            isolation: isolate; 
             cursor: pointer;
         }
         
@@ -200,12 +210,11 @@
 
         .gallery-item img {
             width: 100%; height: 100%; position: absolute; top: 0; left: 0; object-fit: cover;
-            transform: scale(1.15); /* Escala de seguridad */
+            transform: scale(1.15); 
             will-change: transform;
             transition: transform 0.8s var(--ease-hover);
         }
 
-        /* Micro-interacción limpia en Hover */
         .gallery-item:hover img { transform: scale(1.22) translateY(-3px); }
 
         .gallery-item::after {
@@ -221,7 +230,7 @@
         .gi-4 { grid-column: span 5; height: 460px; }
 
         /* --- FOOTER --- */
-        footer { background-color: var(--charcoal); color: var(--pure-white); padding: 120px 10% 40px; position: relative; z-index: 2; }
+        footer { background-color: var(--charcoal); color: var(--pure-white); padding: 120px 10% 40px; position: relative; z-index: 2;}
         .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; margin-bottom: 80px; }
         .footer-left h2 { font-size: 3rem; color: var(--pure-white); margin-bottom: 40px; max-width: 500px; line-height: 1.2; }
         .footer-left h2 i { color: var(--gold); font-style: italic; font-weight: 400;}
@@ -231,21 +240,25 @@
         
         .copyright { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px; display: flex; justify-content: space-between; font-size: 0.85rem; color: #888; }
 
-        /* --- MEDIA QUERY SMARTPHONES COHESIVO (CERO PARCHES SUCIOS) --- */
+        /* --- MEDIA QUERY SMARTPHONES COHESIVO --- */
         @media (max-width: 767px) {
             header { 
-                padding: 15px 5%; 
-                background: rgba(244, 243, 240, 0.92) !important; 
-                backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+                /* Se mantiene un tamaño constante en móvil sin reducirse para mayor comodidad */
+                padding: 20px 5%; 
+                background: rgba(244, 243, 240, 0.85) !important; 
+                backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
                 border-bottom: 1px solid var(--border-light); 
-                position: fixed; /* Header se mantiene fijo por UX */
             }
+            header.scrolled { padding: 20px 5%; }
             .logo-text { font-size: 17px; letter-spacing: 2px; }
             .logo-text span { font-size: 9px; letter-spacing: 4px; }
             
-            /* Ajuste y centrado matemático del botón de contacto */
-            .magnetic-btn-wrap { display: flex; align-items: center; justify-content: center; width: auto; }
-            .magnetic-btn { padding: 10px 20px; font-size: 0.75rem; letter-spacing: 0.5px; border-radius: 100px; }
+            .contact-wrap { padding: 0; margin: 0; width: auto; }
+            .cotizar-wrap { padding: 0; margin: 0; display: flex; justify-content: center; width: 100%;}
+            
+            .magnetic-btn { padding: 10px 20px; font-size: 0.75rem; letter-spacing: 0.5px; }
+            .btn-gold { width: 100%; max-width: 280px; padding: 16px 20px;}
+            .btn-mask-container { justify-content: center; }
             
             .hero { padding: 130px 5% 40px; text-align: center; }
             .hero-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -253,8 +266,7 @@
             .hero p { font-size: 1rem; margin-bottom: 35px; }
             .hero-image-wrapper { height: 45vh; }
             
-            /* Las imágenes en móvil se fuerzan a escala normal estática, eliminando el stuttering */
-            .hero-img, .gallery-item img { transform: scale(1.1) !important; transition: none !important; }
+            .hero-img, .gallery-item img { transform: scale(1.05) !important; transition: none !important; }
             
             .services { padding: 80px 5%; }
             .section-header h2 { font-size: 2.2rem; }
@@ -281,9 +293,11 @@
         <div class="aura-orb orb-2"></div>
     </div>
 
+    <!-- HEADER LIMPIO Y FIJO -->
     <header id="navbar">
         <a href="#" class="logo-text">ALTANAS<span>EVENTOS</span></a>
-        <a href="https://wa.me/522299331564?text=Hola%20Altanas%20Eventos,%20me%20gustar%C3%ADa%20solicitar%20una%20cotizaci%C3%B3n%20para%20un%20evento." target="_blank" class="magnetic-btn-wrap">
+        <!-- Wrapper magnético Contacto -->
+        <a href="https://wa.me/522299331564?text=Hola%20Altanas%20Eventos,%20me%20gustar%C3%ADa%20solicitar%20una%20cotizaci%C3%B3n%20para%20un%20evento." target="_blank" class="magnetic-btn-wrap contact-wrap">
             <div class="magnetic-btn">Contacto</div>
         </a>
     </header>
@@ -291,16 +305,18 @@
     <section class="hero">
         <div class="hero-grid">
             <div class="hero-content">
-                <div class="reveal-mask"><div class="hero-tagline">Coordinación & Diseño</div></div>
+                <div class="reveal-mask"><div class="hero-tagline gs-reveal">Coordinación & Diseño</div></div>
                 <h1 class="hero-title">
                     <div class="reveal-mask"><span style="display:block" class="gs-reveal">Diseñamos</span></div>
                     <div class="reveal-mask"><span style="display:block" class="gs-reveal"><i>momentos</i>,</span></div>
                     <div class="reveal-mask"><span style="display:block" class="gs-reveal">tú los haces eternos.</span></div>
                 </h1>
                 <div class="reveal-mask"><p class="gs-reveal">Abordamos la planificación de eventos desde una perspectiva estrictamente visual y metodológica. Experiencias premium en Veracruz.</p></div>
+                
                 <div class="btn-mask-container">
                     <div class="hero-btn-container gs-reveal">
-                        <a href="https://wa.me/522299331564?text=Hola%20Altanas%20Eventos,%20me%20gustar%C3%ADa%20solicitar%20una%20cotizaci%C3%B3n%20para%20un%20evento." target="_blank" class="magnetic-btn-wrap">
+                        <!-- Wrapper magnético Cotizar -->
+                        <a href="https://wa.me/522299331564?text=Hola%20Altanas%20Eventos,%20me%20gustar%C3%ADa%20solicitar%20una%20cotizaci%C3%B3n%20para%20un%20evento." target="_blank" class="magnetic-btn-wrap cotizar-wrap">
                             <div class="btn-gold">Cotizar por WhatsApp</div>
                         </a>
                     </div>
@@ -374,7 +390,7 @@
             <div class="footer-left">
                 <h2 class="gs-reveal-footer">¿Listo para diseñar <i>tu historia</i>?</h2>
                 <div style="margin-top:20px;">
-                    <a href="https://wa.me/522299331564?text=Hola%20Altanas%20Eventos,%20me%20gustar%C3%ADa%20solicitar%20una%20cotizaci%C3%B3n%20para%20un%20evento." target="_blank" class="magnetic-btn-wrap">
+                    <a href="https://wa.me/522299331564?text=Hola%20Altanas%20Eventos,%20me%20gustar%C3%ADa%20solicitar%20una%20cotizaci%C3%B3n%20para%20un%20evento." target="_blank" class="magnetic-btn-wrap contact-wrap">
                         <div class="btn-gold gs-reveal-footer">Iniciar Conversación</div>
                     </a>
                 </div>
@@ -391,6 +407,7 @@
         </div>
     </footer>
 
+    <!-- LIBRERÍAS DE ANIMACIÓN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
@@ -398,77 +415,78 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        // CONDICIONAL PRINCIPAL: Detectar si es dispositivo móvil para blindar el rendimiento
         const isMobile = window.innerWidth <= 767;
 
-        // --- 1. MOTOR DE SCROLL FLUIDO (LENIS) ---
+        // --- 1. MOTOR LENIS ---
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             direction: 'vertical',
             smooth: true,
             mouseMultiplier: 1,
-            smoothTouch: false, // Forzar scroll nativo y fluido en touch táctil para erradicar stuttering
+            smoothTouch: false,
         });
 
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((time) => { lenis.raf(time * 1000) });
         gsap.ticker.lagSmoothing(0);
 
-        // --- 2. INTERACCIONES MAGNÉTICAS (EXCLUSIVO ESCRITORIO) ---
+        // --- 2. INTERACCIONES MAGNÉTICAS RECALIBRADAS ---
         if (!isMobile) {
             const magneticBtns = document.querySelectorAll('.magnetic-btn-wrap');
-            magneticBtns.forEach(btnWrap => {
-                const btn = btnWrap.querySelector('div'); 
-                btnWrap.addEventListener('mousemove', (e) => {
-                    const rect = btnWrap.getBoundingClientRect();
+            magneticBtns.forEach(wrap => {
+                const btn = wrap.querySelector('div'); 
+                
+                wrap.addEventListener('mousemove', (e) => {
+                    const rect = wrap.getBoundingClientRect();
                     const x = e.clientX - rect.left - rect.width / 2;
                     const y = e.clientY - rect.top - rect.height / 2;
-                    gsap.to(btn, { x: x * 0.35, y: y * 0.35, duration: 0.6, ease: "power3.out" });
+                    
+                    // Límite físico estricto de 15px para que no vuele lejos
+                    const moveX = (x / (rect.width / 2)) * 15;
+                    const moveY = (y / (rect.height / 2)) * 15;
+                    
+                    gsap.to(btn, { x: moveX, y: moveY, duration: 0.4, ease: "power3.out" });
                 });
-                btnWrap.addEventListener('mouseleave', () => {
+
+                wrap.addEventListener('mouseleave', () => {
                     gsap.to(btn, { x: 0, y: 0, duration: 1, ease: "elastic.out(1, 0.4)" });
                 });
             });
         }
 
-        // --- 3. ANIMACIONES DE ENTRADA AL CARGAR (TIMELINE) ---
+        // --- 3. ANIMACIONES DE ENTRADA ---
         const tlHero = gsap.timeline();
         tlHero.from(".gs-reveal", {
             y: "120%", opacity: 0, duration: 1.4, stagger: 0.1, ease: "power4.out", delay: 0.2
         })
         .from("#heroWrapper", { scale: 0.96, opacity: 0, duration: 1.4, ease: "power3.out" }, "-=1.1");
 
-        // --- 4. COREOGRAFÍA DE SCROLL INTEGRADA (CONDICIONADA) ---
-        
+        // --- 4. SCROLL SCRUBBING PROTEGIDO ---
         if (!isMobile) {
-            // PC: Efecto Parallax por escala controlado (Image Scrubbing anti-recorte)
+            // Escala suave que reduce para simular profundidad, sin mover el eje vertical (0 cortes)
             gsap.to("#heroImg", {
-                scale: 1.04, // Reduce escala gradualmente de 1.15 a 1.04 sin moverse del eje vertical
-                ease: "none",
+                scale: 1.03, ease: "none",
                 scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }
             });
 
-            // PC: Parallax fluido en las imágenes de la galería
             gsap.utils.toArray('.gs-parallax-img').forEach(img => {
                 gsap.to(img, {
-                    scale: 1.04, // Misma física segura que emula profundidad 3D
-                    ease: "none",
+                    scale: 1.03, ease: "none",
                     scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true }
                 });
             });
 
-            // PC: Parallax sutil en los orbes decorativos del fondo
-            gsap.to(".fluid-blob", {
-                yPercent: 15, ease: "none",
+            gsap.to(".orb-1, .orb-2", {
+                yPercent: 12, ease: "none",
                 scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: true }
             });
         } else {
-            // MÓVIL: Forzar estados estáticos limpios para optimización absoluta de GPU
+            // Elimina procesos en móvil para evitar stuttering
             gsap.set("#heroImg, .gs-parallax-img", { scale: 1.1, yPercent: 0 });
         }
 
-        // Revelados estándar por intersección (Comunes para ambas versiones)
+        // --- REVELADOS RESTANTES ---
         gsap.utils.toArray('.gs-reveal-up').forEach(elem => {
             gsap.from(elem, {
                 scrollTrigger: { trigger: elem, start: "top 88%" },
@@ -482,11 +500,11 @@
         });
 
         gsap.from(".gs-reveal-footer", {
-            scrollTrigger: { trigger: "footer", start: "top 88%" },
+            scrollTrigger: { trigger: "footer", start: "top 85%" },
             opacity: 0, duration: 1.4, stagger: 0.1, ease: "power2.out"
         });
 
-        // Comportamiento dinámico de la barra de navegación al hacer scroll
+        // --- MANEJO DEL HEADER ---
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 30) navbar.classList.add('scrolled');
