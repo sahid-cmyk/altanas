@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Altanas Eventos | Premium Interactive Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #C5A059;
+            --charcoal: #111111;
+            --slate: #555555;
+            --pure-white: #FFFFFF;
+            --off-white: #F9F9F9;
+            --border-light: rgba(0, 0, 0, 0.05);
+            --glass-radius: 24px; 
+            
+            /* Curvas de velocidad */
+            --ease-out: cubic-bezier(0.19, 1, 0.22, 1);
+            --ease-hover: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Reset estricto */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            outline: none;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        
+        /* Lenis CSS para scroll fluido */
+        html.lenis, html.lenis body { height: auto; width: 100%; overflow-x: hidden; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--charcoal);
+            background-color: var(--pure-white);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 500; }
+
+        /* --- NUEVO FONDO: AURA SYSTEM (Cero Glitches/Cortes) --- */
+        .aura-container {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 0; overflow: hidden;
+            background: var(--pure-white);
+        }
+
+        .aura-orb {
+            position: absolute;
+            border-radius: 50%;
+            /* Uso de radial-gradient PURO sin filter:blur para evitar cortes de bounding box en Safari/Chrome */
+            will-change: transform;
+            transform: translate3d(0,0,0);
+        }
+
+        .orb-1 {
+            width: 120vw; height: 120vw;
+            background: radial-gradient(circle, rgba(197, 160, 89, 0.08) 0%, rgba(255, 255, 255, 0) 60%);
+            top: -40%; left: -30%;
+            animation: auraMorph 20s infinite alternate ease-in-out;
+        }
+
+        .orb-2 {
+            width: 100vw; height: 100vw;
+            background: radial-gradient(circle, rgba(230, 230, 230, 0.6) 0%, rgba(255, 255, 255, 0) 60%);
+            bottom: -30%; right: -20%;
+            animation: auraMorph 25s infinite alternate-reverse ease-in-out;
+        }
+        
+        .orb-3 {
+            width: 80vw; height: 80vw;
+            background: radial-gradient(circle, rgba(197, 160, 89, 0.05) 0%, rgba(255, 255, 255, 0) 60%);
+            top: 20%; left: 40%;
+            animation: auraMorph 30s infinite alternate ease-in-out;
+        }
+
+        @keyframes auraMorph {
+            0% { transform: translate3d(0, 0, 0) scale(1); }
+            50% { transform: translate3d(5vw, 8vh, 0) scale(1.05); }
+            100% { transform: translate3d(-3vw, 4vh, 0) scale(0.95); }
+        }
+
+        /* --- NAVEGACIÓN --- */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 30px 10%; position: fixed; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0); transition: all 0.4s ease;
+        }
+
+        header.scrolled { 
+            padding: 20px 10%; background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .logo-text {
+            font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 22px;
+            letter-spacing: 5px; color: var(--charcoal); line-height: 1.1; text-decoration: none;
+        }
+        .logo-text span { color: var(--gold); font-size: 11px; letter-spacing: 7px; font-weight: 500; display: block; margin-top: 2px;}
+
+        /* Botones magnéticos */
+        .magnetic-btn-wrap { display: inline-block; cursor: pointer; padding: 10px; margin: -10px; }
+        .magnetic-btn {
+            background: var(--charcoal); color: var(--pure-white); padding: 14px 30px;
+            text-decoration: none; font-weight: 500; font-size: 0.85rem; letter-spacing: 1px;
+            text-transform: uppercase; border-radius: 100px; display: inline-block;
+            transition: background 0.3s ease; pointer-events: none;
+        }
+        .magnetic-btn-wrap:hover .magnetic-btn { background: var(--gold); }
+
+        .btn-gold {
+            background: var(--gold); color: var(--pure-white); padding: 18px 40px;
+            text-decoration: none; font-weight: 500; font-size: 0.9rem; letter-spacing: 1px;
+            text-transform: uppercase; display: inline-block; border-radius: 100px;
+            transition: background 0.3s ease; pointer-events: none;
+        }
+        .magnetic-btn-wrap:hover .btn-gold { background: var(--charcoal); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center; padding: 140px 10% 60px;
+            position: relative; z-index: 2;
+        }
+
+        .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 80px; align-items: center; width: 100%; }
+        
+        /* Contenedores de máscara corregidos de tamaño para no limitar el efecto magnético */
+        .reveal-mask { overflow: hidden; display: block; }
+        .btn-mask-container { overflow: visible; display: block; }
+
+        .hero-tagline { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 4px; color: var(--gold); margin-bottom: 25px; font-weight: 600; display: inline-block; }
+        .hero h1 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 30px; color: var(--charcoal); }
+        .hero h1 i { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 400; color: var(--gold); }
+        .hero p { font-size: 1.1rem; margin-bottom: 45px; line-height: 1.8; color: var(--slate); font-weight: 400; max-width: 500px;}
+
+        .hero-image-wrapper {
+            position: relative; width: 100%; height: 75vh; overflow: hidden;
+            border-radius: var(--glass-radius);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+            transform: translateZ(0); 
+        }
+        
+        .hero-img {
+            width: 100%; height: 130%; top: -15%; position: absolute;
+            background: url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+            will-change: transform;
+        }
+
+        /* --- SERVICIOS CON GLASSMORPHISM --- */
+        .services { padding: 160px 10%; position: relative; z-index: 2; }
+        .section-header { margin-bottom: 100px; text-align: center;}
+        .section-header .tag { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 4px; color: var(--gold); margin-bottom: 20px; display: inline-block;}
+        .section-header h2 { font-size: 3.5rem; color: var(--charcoal); }
+
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: stretch; }
+
+        .card {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-radius: var(--glass-radius);
+            padding: 60px 50px;
+            border: 1px solid rgba(255,255,255,0.7);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.02), inset 0 0 10px rgba(255,255,255,0.3);
+            transition: transform 0.6s var(--ease-hover), box-shadow 0.6s var(--ease-hover), border-color 0.4s ease, background 0.4s ease;
+            position: relative; cursor: pointer; z-index: 10;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 40px 80px rgba(197, 160, 89, 0.05), inset 0 0 20px rgba(255,255,255,0.6);
+            border-color: rgba(197, 160, 89, 0.4);
+        }
+
+        .icon-wrap { color: var(--gold); font-size: 1.8rem; margin-bottom: 30px; display: block; font-weight: 500;}
+        .card h3 { font-size: 1.7rem; margin-bottom: 20px; color: var(--charcoal); }
+        .card p { font-size: 0.95rem; color: var(--slate); line-height: 1.7; font-weight: 400; }
+
+        /* --- IMPACT BANNER --- */
+        .impact-banner {
+            padding: 180px 10%; text-align: center; background-color: rgba(250,250,250,0.8);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);
+            position: relative; z-index: 2;
+        }
+        .impact-content h2 { font-size: 3rem; color: var(--charcoal); line-height: 1.4; font-style: italic; font-weight: 400;}
+
+        /* --- GALERÍA EDITORIAL INTERACTIVA --- */
+        .gallery-section { padding: 160px 10% 100px; position: relative; z-index: 2; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 30px; }
+        
+        .gallery-item {
+            position: relative; overflow: hidden; background: var(--off-white);
+            border-radius: var(--glass-radius);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.03);
+            transform: translate3d(0,0,0);
+            cursor: pointer;
+        }
+        
+        .gallery-img-container {
+            width: 100%; height: 100%; overflow: hidden; position: relative;
+        }
+
+        .gallery-item img {
+            width: 100%; height: 135%; position: absolute; top: -15%; left: 0; object-fit: cover;
+            will-change: transform;
+            transition: transform 0.8s var(--ease-out), filter 0.6s ease;
+        }
+
+        /* UX Revelación interactiva (Micro-acercamiento fluido) */
+        .gallery-item:hover img {
+            transform: scale(1.06) translateY(-5px);
+        }
+
+        /* Brillo de luz cruzando la imagen al hover */
+        .gallery-item::after {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            transition: left 0.8s var(--ease-out);
+            pointer-events: none;
+        }
+        .gallery-item:hover::after { left: 150%; }
+
+        .gi-1 { grid-column: span 4; height: 380px; }
+        .gi-2 { grid-column: span 8; height: 380px; }
+        .gi-3 { grid-column: span 7; height: 480px; }
+        .gi-4 { grid-column: span 5; height: 480px; }
+
+        /* --- FOOTER --- */
+        footer { background-color: var(--charcoal); color: var(--pure-white); padding: 120px 10% 40px; position: relative; z-index: 2; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; margin-bottom: 80px; }
+        .footer-left h2 { font-size: 3rem; color: var(--pure-white); margin-bottom: 40px; max-width: 500px; line-height: 1.2; }
+        .footer-left h2 i { color: var(--gold); font-style: italic; font-weight: 400;}
+        .footer-logo { font-size: 2rem; color: var(--pure-white); font-weight: 600; letter-spacing: 5px; margin-bottom: 30px;}
+        .footer-logo span { color: var(--gold); font-size: 11px; display: block; letter-spacing: 8px;}
+        .footer-contact p { color: #A0A0A0; font-size: 1rem; margin-bottom: 10px; }
+        
+        .copyright { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px; display: flex; justify-content: space-between; font-size: 0.85rem; color: #888; }
+
+        @media (max-width: 968px) {
+            header, .hero, .services, .impact-banner, .gallery-section, footer { padding-left: 5%; padding-right: 5%; }
+            .hero-grid { grid-template-columns: 1fr; gap: 50px; text-align: center; }
+            .hero h1 { font-size: 3rem; }
+            .hero p { margin: 0 auto 40px auto; }
+            .hero-btn-container { justify-content: center; }
+            .hero-image-wrapper { height: 50vh; }
+            .section-header h2 { font-size: 2.5rem; }
+            .gallery-grid { display: flex; flex-direction: column; }
+            .gallery-item { height: 350px !important; }
+            .footer-grid { grid-template-columns: 1fr; gap: 60px; }
+            .copyright { flex-direction: column; gap: 20px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- AURA SYSTEM: Fondo sin texturas rígidas ni errores de render -->
+    <div class="aura-container">
+        <div class="aura-orb orb-1"></div>
+        <div class="aura-orb orb-2"></div>
+        <div class="aura-orb orb-3"></div>
+    </div>
+
+    <header id="navbar">
+        <a href="#" class="logo-text">ALTANAS<span>EVENTOS</span></a>
+        <a href="https://wa.me/522299331564?text=Hola%20Altanas%20Eventos,%20me%20gustar%C3%ADa%20solicitar%20una%20cotizaci%C3%B3n%20para%20un%20evento." target="_blank" class="magnetic-btn-wrap" style="text-decoration:none;">
+            <div class="magnetic-btn">Contacto Directo</div>
+        </a>
+    </header>
+
+    <section class="hero">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <div class="reveal-mask"><div class="hero-tagline gs-reveal">Coordinación & Diseño</div></div>
+                <h1 class="hero-title">
+                    <div class="reveal-mask"><span style="display:block" class="gs-reveal">Diseñamos</span></div>
+                    <div class="reveal-mask"><span style="display:block" class="gs-reveal"><i>momentos</i>,</span></div>
+                    <div class="reveal-mask"><span style="display:block" class="gs-reveal">tú los haces eternos.</span></div>
+                </h1>
+                <div class="reveal-mask"><p class="gs-reveal">Abordamos la planificación de eventos desde una perspectiva estrictamente visual y metodológica. Experiencias premium en Veracruz.</p></div>
+                <!-- Cambiado de reveal-mask a btn-mask-container para que no corte el magnetismo -->
+                <div class="btn-mask-container">
+                    <div class="hero-btn-container gs-reveal">
+                        <a href="https://wa.me/522299331564?text=Hola%20Altanas%20Eventos,%20me%20gustar%C3%ADa%20solicitar%20una%20cotizaci%C3%B3n%20para%20un%20evento." target="_blank" class="magnetic-btn-wrap" style="text-decoration:none;">
+                            <div class="btn-gold">Cotizar por WhatsApp</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image-wrapper" id="heroWrapper">
+                <div class="hero-img" id="heroImg"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="servicios">
+        <div class="section-header">
+            <div class="reveal-mask"><span class="tag gs-reveal-up">Portafolio de Servicios</span></div>
+            <div class="reveal-mask"><h2 class="gs-reveal-up">Ejecución con precisión.</h2></div>
+        </div>
+        <div class="services-grid">
+            <div class="card gs-card">
+                <div class="icon-wrap">01.</div>
+                <h3>Bodas de Autor</h3>
+                <p>Curaduría estética completa. Desde la composición floral hasta el diseño de iluminación ambiental, estructuramos bodas con un lenguaje elegante.</p>
+            </div>
+            <div class="card gs-card">
+                <div class="icon-wrap">02.</div>
+                <h3>Galas Corporativas</h3>
+                <p>Identidad corporativa trasladada al espacio físico. Producimos congresos, activaciones y aniversarios con un alto estándar logístico.</p>
+            </div>
+            <div class="card gs-card">
+                <div class="icon-wrap">03.</div>
+                <h3>Eventos de Etiqueta</h3>
+                <p>Cenas exclusivas y recepciones que exigen un ritmo de producción impecable y una atención quirúrgica a los detalles estéticos.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="impact-banner">
+        <div class="reveal-mask"><h2 class="gs-reveal-up">"La elegancia no radica en saturar el espacio, <br>sino en la precisión de cada elemento."</h2></div>
+    </section>
+
+    <section class="gallery-section">
+        <div class="section-header">
+            <div class="reveal-mask"><span class="tag gs-reveal-up">Visuales</span></div>
+            <div class="reveal-mask"><h2 class="gs-reveal-up">Atmósferas Editoriales</h2></div>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item gi-1">
+                <div class="gallery-img-container">
+                    <img class="gs-parallax-img" src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80" alt="Mesa elegante">
+                </div>
+            </div>
+            <div class="gallery-item gi-2">
+                <div class="gallery-img-container">
+                    <img class="gs-parallax-img" src="https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=800&q=80" alt="Detalle de cristalería">
+                </div>
+            </div>
+            <div class="gallery-item gi-3">
+                <div class="gallery-img-container">
+                    <img class="gs-parallax-img" src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=80" alt="Iluminación de banquete">
+                </div>
+            </div>
+            <div class="gallery-item gi-4">
+                <div class="gallery-img-container">
+                    <img class="gs-parallax-img" src="https://images.unsplash.com/photo-1478146896981-b80fe463b330?auto=format&fit=crop&w=800&q=80" alt="Decoración de noche">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-left">
+                <h2 class="gs-reveal-footer">¿Listo para diseñar <i>tu historia</i>?</h2>
+                <div style="margin-top:20px;">
+                    <a href="https://wa.me/522299331564?text=Hola%20Altanas%20Eventos,%20me%20gustar%C3%ADa%20solicitar%20una%20cotizaci%C3%B3n%20para%20un%20evento." target="_blank" class="magnetic-btn-wrap" style="text-decoration:none;">
+                        <div class="btn-gold gs-reveal-footer">Iniciar Conversación</div>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-right footer-contact">
+                <div class="footer-logo gs-reveal-footer">ALTANAS<span>EVENTOS</span></div>
+                <p class="gs-reveal-footer">+52 1 229 933 1564</p>
+                <p class="gs-reveal-footer">rosyireyesv@gmail.com</p>
+            </div>
+        </div>
+        <div class="copyright gs-reveal-footer">
+            <p>&copy; 2026 Altanas Eventos.</p>
+            <p>Veracruz, México</p>
+        </div>
+    </footer>
+
+    <!-- LIBRERÍAS DE ANIMACIÓN Y FÍSICAS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+    
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- 1. SMOOTH SCROLLING (LENIS) ---
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        });
+
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => { lenis.raf(time * 1000) });
+        gsap.ticker.lagSmoothing(0);
+
+        // --- 2. INTERACCIONES MAGNÉTICAS ---
+        const magneticBtns = document.querySelectorAll('.magnetic-btn-wrap');
+        magneticBtns.forEach(btnWrap => {
+            const btn = btnWrap.querySelector('div'); 
+            
+            btnWrap.addEventListener('mousemove', (e) => {
+                const rect = btnWrap.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                gsap.to(btn, {
+                    x: x * 0.4,
+                    y: y * 0.4,
+                    duration: 0.8,
+                    ease: "power3.out"
+                });
+            });
+
+            btnWrap.addEventListener('mouseleave', () => {
+                gsap.to(btn, {
+                    x: 0,
+                    y: 0,
+                    duration: 1.2,
+                    ease: "elastic.out(1, 0.3)"
+                });
+            });
+        });
+
+        // --- 3. KINETIC TYPOGRAPHY (TEXT REVEALS) ---
+        const tlHero = gsap.timeline();
+        tlHero.from(".gs-reveal", {
+            y: "120%", opacity: 0, duration: 1.4, stagger: 0.1, ease: "power4.out", delay: 0.2
+        })
+        .from("#heroWrapper", { scale: 0.95, opacity: 0, duration: 1.6, ease: "power3.out" }, "-=1.2")
+        .from("#heroImg", { scale: 1.2, duration: 2, ease: "power2.out" }, "-=1.6");
+
+        gsap.utils.toArray('.gs-reveal-up').forEach(elem => {
+            gsap.from(elem, {
+                scrollTrigger: { trigger: elem, start: "top 85%" },
+                y: "100%", opacity: 0, duration: 1.2, ease: "power4.out"
+            });
+        });
+
+        // --- 4. IMAGE SCRUBBING & PARALLAX ---
+        gsap.to("#heroImg", {
+            yPercent: 15, ease: "none",
+            scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }
+        });
+
+        gsap.utils.toArray('.gs-parallax-img').forEach(img => {
+            gsap.to(img, {
+                yPercent: 20, ease: "none",
+                scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true }
+            });
+        });
+
+        // --- ANIMACIONES RESTANTES ---
+        gsap.from(".gs-card", {
+            scrollTrigger: { trigger: ".services-grid", start: "top 80%" },
+            y: 40, opacity: 0, duration: 1, stagger: 0.15, ease: "power3.out"
+        });
+
+        gsap.from(".gs-reveal-footer", {
+            scrollTrigger: { trigger: "footer", start: "top 85%" },
+            opacity: 0, duration: 1.5, stagger: 0.1, ease: "power2.out"
+        });
+
+        // Fondo fluido Parallax vertical
+        gsap.to(".aura-orb", {
+            yPercent: 20, ease: "none",
+            scrollTrigger: { trigger: "body", start: "top top", end: "bottom bottom", scrub: true }
+        });
+
+        // Navbar estético
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+    </script>
+</body>
+</html>
